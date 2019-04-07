@@ -4,7 +4,7 @@ It accepts port address as pointer and pin number for every output.
 
 ---
 
-## Example
+## Example code for PIC12F1840 with XC8 compiler
 
 ```c
 
