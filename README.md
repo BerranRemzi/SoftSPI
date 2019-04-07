@@ -23,6 +23,7 @@ void main(void)
     uint8_t counter = 0;
     init();
     SoftSPI_Init(&PORTA, 0, 1, 2);
+    SoftSPI_InitDelay(10); // by default this is 1 cycle
     for(;;){
         SoftSPI_Write(counter++, SOFT_SPI_LSB_FIRST);
         SoftSPI_TriggerOutput();
@@ -45,4 +46,11 @@ istead of
 
 ```c
 SoftSPI_Init(&PORTA, 0, 1, 2);
+```
+
+## Changing number of dummy processor dummy cycles
+If the value isn't initialized, it starts with 1 processor cycle
+
+```c
+SoftSPI_InitDelay(10); // min = 1, max = 255;
 ```
