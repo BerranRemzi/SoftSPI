@@ -12,14 +12,14 @@
 #ifndef SOFTSPI_H_
 #define SOFTSPI_H_
 
+/**
+ * Section: Includes
+*/
 #include <stdint.h>
 
-#ifdef __cplusplus  // Provide C++ Compatibility
-
-extern "C" {
-
-#endif
-
+/**
+ * Section: Preprocessor Constants
+*/
 #define MIN_DELAY_TICKS 0x01
 #define ALL_INPUTS_ARE_INITIALIZED 0x07
 
@@ -46,6 +46,15 @@ static uint8_t latch_pin;
 
 static volatile uint8_t * p_data_port = 0;
 static uint8_t data_pin;
+
+/**
+ * Section: Function Prototypes
+*/
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+extern "C" {
+
+#endif
 
 /**
  * @brief Function for checking initialization status of API.
