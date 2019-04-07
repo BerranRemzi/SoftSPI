@@ -1,9 +1,10 @@
 # SoftSPI
-Software SPI with bit-bang control of outputs
+This is a simple library to simplify bit-banging SPI on any MCU.
+It accepts port address as pointer and pin number for every output.
 
 ---
 
-## Example (Optional)
+## Example
 
 ```c
 
@@ -31,4 +32,17 @@ void main(void)
 
 ```
 
----
+## Initializing ports one by one
+Use these three functions:
+
+```c
+   SoftSPI_InitDataPin(&PORTA, 0);
+   SoftSPI_InitClockPin(&PORTA, 1);
+   SoftSPI_InitLatchPin(&PORTA, 2);
+```
+
+istead of:
+
+```c
+SoftSPI_Init(&PORTA, 0, 1, 2);
+```
