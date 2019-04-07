@@ -54,3 +54,14 @@ If the value isn't initialized, default is 1 processor cycle
 ```c
 SoftSPI_InitDelay(10); // min = 1, max = 255;
 ```
+
+## Authors
+
+* **Berran Remzi** - *Initial work* - [BerranRemzi](https://github.com/BerranRemzi)
+
+See also the list of [contributors](https://github.com/BerranRemzi/SoftSPI/graphs/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
