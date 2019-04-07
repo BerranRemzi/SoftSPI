@@ -47,9 +47,7 @@ static uint8_t latch_pin;
 static volatile uint8_t * p_data_port = 0;
 static uint8_t data_pin;
 
-/**
- * Section: Function Prototypes
-*/
+
 #ifdef __cplusplus  // Provide C++ Compatibility
 
 extern "C" {
