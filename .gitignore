@@ -1,4 +1,6 @@
 # Folders
+.vscode/
+sim/
 
 # Prerequisites
 *.d
