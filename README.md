@@ -41,7 +41,7 @@ Use these three functions:
    SoftSPI_InitLatchPin(&PORTA, 2);
 ```
 
-istead of:
+istead of
 
 ```c
 SoftSPI_Init(&PORTA, 0, 1, 2);
