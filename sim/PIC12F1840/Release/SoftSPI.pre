@@ -1,0 +1,263 @@
+
+# 1 "../../../SoftSPI.c"
+
+# 13 "C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\c90\stdint.h"
+typedef signed char int8_t;
+
+# 20
+typedef signed int int16_t;
+
+# 28
+typedef __int24 int24_t;
+
+# 36
+typedef signed long int int32_t;
+
+# 52
+typedef unsigned char uint8_t;
+
+# 58
+typedef unsigned int uint16_t;
+
+# 65
+typedef __uint24 uint24_t;
+
+# 72
+typedef unsigned long int uint32_t;
+
+# 88
+typedef signed char int_least8_t;
+
+# 96
+typedef signed int int_least16_t;
+
+# 109
+typedef __int24 int_least24_t;
+
+# 118
+typedef signed long int int_least32_t;
+
+# 136
+typedef unsigned char uint_least8_t;
+
+# 143
+typedef unsigned int uint_least16_t;
+
+# 154
+typedef __uint24 uint_least24_t;
+
+# 162
+typedef unsigned long int uint_least32_t;
+
+# 181
+typedef signed char int_fast8_t;
+
+# 188
+typedef signed int int_fast16_t;
+
+# 200
+typedef __int24 int_fast24_t;
+
+# 208
+typedef signed long int int_fast32_t;
+
+# 224
+typedef unsigned char uint_fast8_t;
+
+# 230
+typedef unsigned int uint_fast16_t;
+
+# 240
+typedef __uint24 uint_fast24_t;
+
+# 247
+typedef unsigned long int uint_fast32_t;
+
+# 268
+typedef int32_t intmax_t;
+
+# 282
+typedef uint32_t uintmax_t;
+
+# 289
+typedef int16_t intptr_t;
+
+
+
+
+typedef uint16_t uintptr_t;
+
+# 30 "../../../SoftSPI.h"
+typedef enum BitNumberingEnum {
+SOFT_SPI_LSB_FIRST,
+SOFT_SPI_MSB_FIRST
+};
+
+# 38
+static uint8_t init_level = 0;
+static uint8_t dummy_cycles = 0x01;
+
+static volatile uint8_t * p_clock_port = 0;
+static uint8_t clock_pin;
+
+static volatile uint8_t * p_latch_port = 0;
+static uint8_t latch_pin;
+
+static volatile uint8_t * p_data_port = 0;
+static uint8_t data_pin;
+
+# 58
+inline uint8_t SoftSPI_IsInitialized();
+
+# 70
+void SoftSPI_InitDelay(uint8_t _dummy_cycles);
+
+# 84
+void SoftSPI_Init(
+volatile uint8_t * _port,
+uint8_t _data_pin,
+uint8_t _clock_pin,
+uint8_t _latch_pin);
+
+# 100
+void setBit(volatile uint8_t * _port, uint8_t _pin);
+
+# 112
+void clearBit(volatile uint8_t * _port, uint8_t _pin);
+
+# 123
+static inline void SoftSPI_Delay(void);
+
+# 133
+void SoftSPI_Clear(void);
+
+# 145
+void SoftSPI_Write(uint8_t _value, uint8_t _bit_order);
+
+# 154
+void SoftSPI_ToggleClock();
+
+# 163
+void SoftSPI_TriggerOutput();
+
+# 174
+static inline uint8_t convertOutNumberToBit(uint8_t _pin);
+
+# 186
+void SoftSPI_InitDataPin(volatile uint8_t * _port, uint8_t _pin);
+
+# 198
+void SoftSPI_InitLatchPin(volatile uint8_t * _port, uint8_t _pin);
+
+# 210
+void SoftSPI_InitClockPin(volatile uint8_t * _port, uint8_t _pin);
+
+# 13 "../../../SoftSPI.c"
+inline uint8_t SoftSPI_IsInitialized(void) {
+return init_level == 0x07;
+}
+
+void SoftSPI_InitDelay(uint8_t _dummy_cycles) {
+if (_dummy_cycles > 0) {
+dummy_cycles = _dummy_cycles;
+}
+}
+
+void SoftSPI_Init(
+volatile uint8_t * _port,
+uint8_t _data_pin,
+uint8_t _clock_pin,
+uint8_t _latch_pin) {
+SoftSPI_InitDataPin(_port, _data_pin);
+SoftSPI_InitClockPin(_port, _clock_pin);
+SoftSPI_InitLatchPin(_port, _latch_pin);
+}
+
+static inline uint8_t convertOutNumberToBit(uint8_t _pin) {
+return 1 << _pin;
+}
+
+
+static inline void SoftSPI_Delay(void) {
+uint8_t _counter = dummy_cycles;
+while ( --_counter != 0)
+continue;
+}
+
+void SoftSPI_InitDataPin(volatile uint8_t * _port, uint8_t _pin) {
+if (_port) {
+setBit(&init_level, 0);
+}
+p_data_port = _port;
+data_pin = _pin;
+}
+
+void SoftSPI_InitClockPin(volatile uint8_t * _port, uint8_t _pin) {
+if (_port) {
+setBit(&init_level, 1);
+}
+p_clock_port = _port;
+clock_pin = _pin;
+}
+
+void SoftSPI_InitLatchPin(volatile uint8_t * _port, uint8_t _pin) {
+if (_port) {
+setBit(&init_level, 2);
+}
+p_latch_port = _port;
+latch_pin = _pin;
+}
+
+void SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
+if (!SoftSPI_IsInitialized()) {
+return;
+}
+
+for (uint8_t i = 0; i < 8; i++) {
+switch (_bit_order) {
+case SOFT_SPI_MSB_FIRST:
+if ((_value >> i) & 0x01) {
+setBit(p_data_port, data_pin);
+} else {
+clearBit(p_data_port, data_pin);
+}
+break;
+case SOFT_SPI_LSB_FIRST:
+if ((_value << i) & 0x80) {
+setBit(p_data_port, data_pin);
+} else {
+clearBit(p_data_port, data_pin);
+}
+break;
+default: break;
+}
+SoftSPI_ToggleClock();
+}
+}
+
+void SoftSPI_Clear() {
+SoftSPI_Write(0x00, SOFT_SPI_LSB_FIRST);
+}
+void setBit(volatile uint8_t * _port, uint8_t _pin) {
+*_port |= convertOutNumberToBit(_pin);
+}
+
+void clearBit(volatile uint8_t * _port, uint8_t _pin) {
+*_port &= ~convertOutNumberToBit(_pin);
+}
+
+void SoftSPI_ToggleClock() {
+setBit(p_clock_port, clock_pin);
+SoftSPI_Delay();
+clearBit(p_clock_port, clock_pin);
+SoftSPI_Delay();
+}
+
+void SoftSPI_TriggerOutput() {
+if (!SoftSPI_IsInitialized()) {
+return;
+}
+setBit(p_latch_port, latch_pin);
+SoftSPI_Delay();
+clearBit(p_latch_port, latch_pin);
+}

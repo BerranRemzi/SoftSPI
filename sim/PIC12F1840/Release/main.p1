@@ -1,0 +1,354 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"1732 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic12f1840.h
+[v _LATA `Vuc ~T0 @X0 0 e@268 ]
+"1002
+[v _TRISA `Vuc ~T0 @X0 0 e@140 ]
+[p mainexit ]
+"84 ../SoftSPI.h
+[v _SoftSPI_Init `(v ~T0 @X0 0 ef4`*Vuc`uc`uc`uc ]
+"429 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic12f1840.h
+[v _PORTA `Vuc ~T0 @X0 0 e@12 ]
+"145 ../SoftSPI.h
+[v _SoftSPI_Write `(v ~T0 @X0 0 ef2`uc`uc ]
+"48 ../main.c
+[c E1734 0 1 .. ]
+[n E1734 BitNumberingEnum SOFT_SPI_LSB_FIRST SOFT_SPI_MSB_FIRST  ]
+"163 ../SoftSPI.h
+[v _SoftSPI_TriggerOutput `(v ~T0 @X0 0 ef ]
+"12 ../main.c
+[p x FOSC=INTOSC ]
+"13
+[p x WDTE=OFF ]
+"14
+[p x PWRTE=ON ]
+"15
+[p x MCLRE=OFF ]
+"16
+[p x CP=OFF ]
+"17
+[p x CPD=OFF ]
+"18
+[p x BOREN=ON ]
+"19
+[p x CLKOUTEN=OFF ]
+"20
+[p x IESO=OFF ]
+"21
+[p x FCMEN=OFF ]
+"24
+[p x WRT=OFF ]
+"25
+[p x PLLEN=OFF ]
+"26
+[p x STVREN=ON ]
+"27
+[p x BORV=LO ]
+"28
+[p x LVP=OFF ]
+"54 C:\Program Files (x86)\Microchip\xc8\v2.05\pic\include\pic12f1840.h
+[; <" INDF0 equ 00h ;# ">
+"74
+[; <" INDF1 equ 01h ;# ">
+"94
+[; <" PCL equ 02h ;# ">
+"114
+[; <" STATUS equ 03h ;# ">
+"177
+[; <" FSR0L equ 04h ;# ">
+"197
+[; <" FSR0H equ 05h ;# ">
+"221
+[; <" FSR1L equ 06h ;# ">
+"241
+[; <" FSR1H equ 07h ;# ">
+"261
+[; <" BSR equ 08h ;# ">
+"313
+[; <" WREG equ 09h ;# ">
+"333
+[; <" PCLATH equ 0Ah ;# ">
+"353
+[; <" INTCON equ 0Bh ;# ">
+"431
+[; <" PORTA equ 0Ch ;# ">
+"481
+[; <" PIR1 equ 011h ;# ">
+"543
+[; <" PIR2 equ 012h ;# ">
+"583
+[; <" TMR0 equ 015h ;# ">
+"603
+[; <" TMR1 equ 016h ;# ">
+"610
+[; <" TMR1L equ 016h ;# ">
+"630
+[; <" TMR1H equ 017h ;# ">
+"650
+[; <" T1CON equ 018h ;# ">
+"722
+[; <" T1GCON equ 019h ;# ">
+"799
+[; <" TMR2 equ 01Ah ;# ">
+"819
+[; <" PR2 equ 01Bh ;# ">
+"839
+[; <" T2CON equ 01Ch ;# ">
+"910
+[; <" CPSCON0 equ 01Eh ;# ">
+"970
+[; <" CPSCON1 equ 01Fh ;# ">
+"1004
+[; <" TRISA equ 08Ch ;# ">
+"1054
+[; <" PIE1 equ 091h ;# ">
+"1116
+[; <" PIE2 equ 092h ;# ">
+"1156
+[; <" OPTION_REG equ 095h ;# ">
+"1239
+[; <" PCON equ 096h ;# ">
+"1290
+[; <" WDTCON equ 097h ;# ">
+"1349
+[; <" OSCTUNE equ 098h ;# ">
+"1407
+[; <" OSCCON equ 099h ;# ">
+"1479
+[; <" OSCSTAT equ 09Ah ;# ">
+"1541
+[; <" ADRES equ 09Bh ;# ">
+"1548
+[; <" ADRESL equ 09Bh ;# ">
+"1568
+[; <" ADRESH equ 09Ch ;# ">
+"1588
+[; <" ADCON0 equ 09Dh ;# ">
+"1668
+[; <" ADCON1 equ 09Eh ;# ">
+"1734
+[; <" LATA equ 010Ch ;# ">
+"1779
+[; <" CM1CON0 equ 0111h ;# ">
+"1836
+[; <" CM1CON1 equ 0112h ;# ">
+"1896
+[; <" CMOUT equ 0115h ;# ">
+"1916
+[; <" BORCON equ 0116h ;# ">
+"1949
+[; <" FVRCON equ 0117h ;# ">
+"2025
+[; <" DACCON0 equ 0118h ;# ">
+"2080
+[; <" DACCON1 equ 0119h ;# ">
+"2132
+[; <" SRCON0 equ 011Ah ;# ">
+"2203
+[; <" SRCON1 equ 011Bh ;# ">
+"2255
+[; <" APFCON equ 011Dh ;# ">
+"2260
+[; <" APFCON0 equ 011Dh ;# ">
+"2397
+[; <" ANSELA equ 018Ch ;# ">
+"2444
+[; <" EEADR equ 0191h ;# ">
+"2451
+[; <" EEADRL equ 0191h ;# ">
+"2471
+[; <" EEADRH equ 0192h ;# ">
+"2491
+[; <" EEDAT equ 0193h ;# ">
+"2498
+[; <" EEDATL equ 0193h ;# ">
+"2503
+[; <" EEDATA equ 0193h ;# ">
+"2536
+[; <" EEDATH equ 0194h ;# ">
+"2556
+[; <" EECON1 equ 0195h ;# ">
+"2618
+[; <" EECON2 equ 0196h ;# ">
+"2638
+[; <" VREGCON equ 0197h ;# ">
+"2672
+[; <" RCREG equ 0199h ;# ">
+"2692
+[; <" TXREG equ 019Ah ;# ">
+"2712
+[; <" SP1BRG equ 019Bh ;# ">
+"2719
+[; <" SP1BRGL equ 019Bh ;# ">
+"2724
+[; <" SPBRG equ 019Bh ;# ">
+"2728
+[; <" SPBRGL equ 019Bh ;# ">
+"2773
+[; <" SP1BRGH equ 019Ch ;# ">
+"2778
+[; <" SPBRGH equ 019Ch ;# ">
+"2811
+[; <" RCSTA equ 019Dh ;# ">
+"2873
+[; <" TXSTA equ 019Eh ;# ">
+"2935
+[; <" BAUDCON equ 019Fh ;# ">
+"2987
+[; <" WPUA equ 020Ch ;# ">
+"3045
+[; <" SSP1BUF equ 0211h ;# ">
+"3050
+[; <" SSPBUF equ 0211h ;# ">
+"3083
+[; <" SSP1ADD equ 0212h ;# ">
+"3088
+[; <" SSPADD equ 0212h ;# ">
+"3121
+[; <" SSP1MSK equ 0213h ;# ">
+"3126
+[; <" SSPMSK equ 0213h ;# ">
+"3159
+[; <" SSP1STAT equ 0214h ;# ">
+"3164
+[; <" SSPSTAT equ 0214h ;# ">
+"3281
+[; <" SSP1CON1 equ 0215h ;# ">
+"3286
+[; <" SSPCON1 equ 0215h ;# ">
+"3290
+[; <" SSPCON equ 0215h ;# ">
+"3485
+[; <" SSP1CON2 equ 0216h ;# ">
+"3490
+[; <" SSPCON2 equ 0216h ;# ">
+"3607
+[; <" SSP1CON3 equ 0217h ;# ">
+"3612
+[; <" SSPCON3 equ 0217h ;# ">
+"3729
+[; <" CCPR1 equ 0291h ;# ">
+"3736
+[; <" CCPR1L equ 0291h ;# ">
+"3756
+[; <" CCPR1H equ 0292h ;# ">
+"3776
+[; <" CCP1CON equ 0293h ;# ">
+"3858
+[; <" PWM1CON equ 0294h ;# ">
+"3928
+[; <" CCP1AS equ 0295h ;# ">
+"3933
+[; <" ECCP1AS equ 0295h ;# ">
+"4090
+[; <" PSTR1CON equ 0296h ;# ">
+"4124
+[; <" IOCAP equ 0391h ;# ">
+"4182
+[; <" IOCAN equ 0392h ;# ">
+"4240
+[; <" IOCAF equ 0393h ;# ">
+"4298
+[; <" CLKRCON equ 039Ah ;# ">
+"4374
+[; <" MDCON equ 039Ch ;# ">
+"4425
+[; <" MDSRC equ 039Dh ;# ">
+"4478
+[; <" MDCARL equ 039Eh ;# ">
+"4543
+[; <" MDCARH equ 039Fh ;# ">
+"4608
+[; <" STATUS_SHAD equ 0FE4h ;# ">
+"4640
+[; <" WREG_SHAD equ 0FE5h ;# ">
+"4660
+[; <" BSR_SHAD equ 0FE6h ;# ">
+"4680
+[; <" PCLATH_SHAD equ 0FE7h ;# ">
+"4700
+[; <" FSR0L_SHAD equ 0FE8h ;# ">
+"4720
+[; <" FSR0H_SHAD equ 0FE9h ;# ">
+"4740
+[; <" FSR1L_SHAD equ 0FEAh ;# ">
+"4760
+[; <" FSR1H_SHAD equ 0FEBh ;# ">
+"4780
+[; <" STKPTR equ 0FEDh ;# ">
+"4800
+[; <" TOSL equ 0FEEh ;# ">
+"4820
+[; <" TOSH equ 0FEFh ;# ">
+"38 ../SoftSPI.h
+[v _init_level `uc ~T0 @X0 1 s ]
+[i _init_level
+-> -> 0 `i `uc
+]
+"39
+[v _dummy_cycles `uc ~T0 @X0 1 s ]
+[i _dummy_cycles
+-> -> 1 `i `uc
+]
+"41
+[v _p_clock_port `*Vuc ~T0 @X0 1 s ]
+[i _p_clock_port
+-> -> 0 `i `*Vuc
+]
+"42
+[v _clock_pin `uc ~T0 @X0 1 s ]
+"44
+[v _p_latch_port `*Vuc ~T0 @X0 1 s ]
+[i _p_latch_port
+-> -> 0 `i `*Vuc
+]
+"45
+[v _latch_pin `uc ~T0 @X0 1 s ]
+"47
+[v _p_data_port `*Vuc ~T0 @X0 1 s ]
+[i _p_data_port
+-> -> 0 `i `*Vuc
+]
+"48
+[v _data_pin `uc ~T0 @X0 1 s ]
+"36 ../main.c
+[v _init `(v ~T0 @X0 1 ef ]
+{
+[e :U _init ]
+[f ]
+"37
+[e = _LATA -> -> 0 `i `uc ]
+"38
+[e = _TRISA -> -> 0 `i `uc ]
+"39
+[e :UE 262 ]
+}
+[v $root$_main `(v ~T0 @X0 0 e ]
+"41
+[v _main `(v ~T0 @X0 1 ef ]
+"42
+{
+[e :U _main ]
+[f ]
+"43
+[v _counter `uc ~T0 @X0 1 a ]
+[e = _counter -> -> 0 `i `uc ]
+"44
+[e ( _init ..  ]
+"45
+[e ( _SoftSPI_Init (4 , , , &U _PORTA -> -> 0 `i `uc -> -> 1 `i `uc -> -> 2 `i `uc ]
+"46
+[e :U 265 ]
+{
+"48
+[e ( _SoftSPI_Write (2 , ++ _counter -> -> 1 `i `uc -> . `E1734 0 `uc ]
+"49
+[e ( _SoftSPI_TriggerOutput ..  ]
+"51
+}
+[e :U 264 ]
+"46
+[e $U 265  ]
+[e :U 266 ]
+"52
+[e :UE 263 ]
+}
