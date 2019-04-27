@@ -92,7 +92,7 @@ void SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
     }
 }
 
-void SoftSPI_Clear() {
+void SoftSPI_Clear(void) {
     SoftSPI_Write(0x00, SOFT_SPI_LSB_FIRST);
 }
 void setBit(volatile uint8_t * _port, uint8_t _pin) {
@@ -103,14 +103,14 @@ void clearBit(volatile uint8_t * _port, uint8_t _pin) {
     *_port &= ~convertOutNumberToBit(_pin);
 }
 
-void SoftSPI_ToggleClock() {
+void SoftSPI_ToggleClock(void) {
     setBit(p_clock_port, clock_pin);
     SoftSPI_Delay();
     clearBit(p_clock_port, clock_pin);
     SoftSPI_Delay();
 }
 
-void SoftSPI_TriggerOutput() {
+void SoftSPI_TriggerOutput(void) {
     if (!SoftSPI_IsInitialized()) {
         return;
     }
