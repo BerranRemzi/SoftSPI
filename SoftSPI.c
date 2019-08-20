@@ -70,6 +70,8 @@ void SoftSPI_InitSelectPin(volatile uint8_t * _port, uint8_t _pin) {
 }
 
 uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
+    uint8_t inputData = 0;
+
     if (!SoftSPI_IsInitialized()) {
         return 0x00;
     }
@@ -92,9 +94,13 @@ uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
             break;
         default: break;
         }
+        inputData |= readBit(p_mosi_port, miso_pin);
+        if ( i < 7 ) {
+            inputData = inputData << 1;
+        }
         SoftSPI_ToggleClock();
     }
-    return 0xFF;
+    return inputData;
 }
 
 void SoftSPI_Clear(void) {
