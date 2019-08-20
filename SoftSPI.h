@@ -16,6 +16,7 @@
  * Section: Includes
  */
 #include <stdint.h>
+#include <stdbool.h>
 
 /**
  * Section: Preprocessor Constants
@@ -121,6 +122,18 @@ extern "C" {
      * @date 7.04.2019
      */
     void clearBit(volatile uint8_t * _port, uint8_t _pin);
+
+    /**
+     * @brief Function for reading single a bit from specified port.
+     *
+     * a normal member taking two arguments.
+     * @author Berran Remzi
+     * @param *_port Port address.
+     * @param _pin Pin number.
+     * @return @c Pin status.
+     * @date 20.08.2019
+     */
+    bool readBit(volatile uint8_t * _port, uint8_t _pin);
 
     /**
      * @brief Function for delay.

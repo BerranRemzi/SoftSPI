@@ -50,7 +50,7 @@ void SoftSPI_InitDataOutPin(volatile uint8_t * _port, uint8_t _pin) {
         setBit(&init_level, 0);
     }
     p_mosi_port = _port;
-    data_pin = _pin;
+    mosi_pin = _pin;
 }
 
 void SoftSPI_InitClockPin(volatile uint8_t * _port, uint8_t _pin) {
@@ -71,23 +71,23 @@ void SoftSPI_InitSelectPin(volatile uint8_t * _port, uint8_t _pin) {
 
 uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
     if (!SoftSPI_IsInitialized()) {
-        return;
+        return 0x00;
     }
 
     for (uint8_t i = 0; i < 8; i++) {
         switch (_bit_order) {
         case SOFT_SPI_MSB_FIRST:
             if ((_value >> i) & 0x01) {
-                setBit(p_mosi_port, data_pin);
+                setBit(p_mosi_port, mosi_pin);
             } else {
-                clearBit(p_mosi_port, data_pin);
+                clearBit(p_mosi_port, mosi_pin);
             }
             break;
         case SOFT_SPI_LSB_FIRST:
             if ((_value << i) & 0x80) {
-                setBit(p_mosi_port, data_pin);
+                setBit(p_mosi_port, mosi_pin);
             } else {
-                clearBit(p_mosi_port, data_pin);
+                clearBit(p_mosi_port, mosi_pin);
             }
             break;
         default: break;
@@ -106,6 +106,10 @@ void setBit(volatile uint8_t * _port, uint8_t _pin) {
 
 void clearBit(volatile uint8_t * _port, uint8_t _pin) {
     *_port &= ~convertOutNumberToBit(_pin);
+}
+
+bool readBit(volatile uint8_t * _port, uint8_t _pin) {
+    return (* _port >> _pin) & 1U;
 }
 
 void SoftSPI_ToggleClock(void) {
