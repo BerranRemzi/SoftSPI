@@ -1,6 +1,7 @@
 # Folders
 .vscode/
 sim/
+SoftSPI_MCP3201.X/
 
 # Prerequisites
 *.d

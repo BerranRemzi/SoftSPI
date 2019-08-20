@@ -6,7 +6,7 @@
  *
  * @author Berran Remzi
  *
- * @date 07.04.2019
+ * @date 20.08.2019
  */
 
 #ifndef SOFTSPI_H_
@@ -41,12 +41,14 @@ static uint8_t dummy_cycles = MIN_DELAY_TICKS;
 static volatile uint8_t * p_clock_port = 0;
 static uint8_t clock_pin;
 
-static volatile uint8_t * p_latch_port = 0;
-static uint8_t latch_pin;
+static volatile uint8_t * p_select_port = 0;
+static uint8_t select_pin;
 
-static volatile uint8_t * p_data_port = 0;
-static uint8_t data_pin;
+static volatile uint8_t * p_mosi_port = 0;
+static uint8_t mosi_pin;
 
+static volatile uint8_t * p_miso_port = 0;
+static int8_t miso_pin;
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
@@ -82,17 +84,19 @@ extern "C" {
      * a normal member taking four arguments.
      * @author Berran Remzi
      * @param *_port Port address that SPI line is connected.
-     * @param _data_pin Pin number of DATA line.
+     * @param _mosi_pin Pin number of MOSI line.
+     * @param _miso_pin Pin number of MISO line.
      * @param _clock_pin pin number of CLOCK line.
-     * @param _latch_pin Pin number of LATCH line.
+     * @param _select_pin Pin number of SELECT line.
      * @return @c NULL is always returned.
      * @date 7.04.2019
      */
     void SoftSPI_Init(
             volatile uint8_t * _port,
-            uint8_t _data_pin,
+            uint8_t _mosi_pin,
+            uint8_t _miso_pin,
             uint8_t _clock_pin,
-            uint8_t _latch_pin);
+            uint8_t _select_pin);
 
     /**
      * @brief Function for setting single a bit from specified port.
@@ -149,19 +153,19 @@ extern "C" {
      * @return @c NULL is always returned.
      * @date 7.04.2019
      */
-    void SoftSPI_Write(uint8_t _value, uint8_t _bit_order);
+    uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order);
 
     /**
      * @brief Function for toggling the CLOCK pin
      *
      * @author Berran Remzi
-     * @return @c NULL is always returned.
-     * @date 7.04.2019
+     * @return @c readed byte by MISO input.
+     * @date 20.08.2019
      */
     void SoftSPI_ToggleClock(void);
 
     /**
-     * @brief Function for toggling the LATCH pin
+     * @brief Function for toggling the SELECT pin
      *
      * @author Berran Remzi
      * @return @c NULL is always returned.
@@ -181,7 +185,7 @@ extern "C" {
     static inline uint8_t convertOutNumberToBit(uint8_t _pin);
 
     /**
-     * @brief Function for initializing DATA output.
+     * @brief Function for initializing MOSI output.
      *
      * a normal member taking two arguments.
      * @author Berran Remzi
@@ -190,10 +194,10 @@ extern "C" {
      * @return @c NULL is always returned.
      * @date 7.04.2019
      */
-    void SoftSPI_InitDataPin(volatile uint8_t * _port, uint8_t _pin);
+    void SoftSPI_InitDataOutPin(volatile uint8_t * _port, uint8_t _pin);
 
     /**
-     * @brief Function for initializing DATA output.
+     * @brief Function for initializing MOSI output.
      *
      * a normal member taking two arguments.
      * @author Berran Remzi
@@ -202,10 +206,10 @@ extern "C" {
      * @return @c NULL is always returned.
      * @date 7.04.2019
      */
-    void SoftSPI_InitLatchPin(volatile uint8_t * _port, uint8_t _pin);
+    void SoftSPI_InitSelectPin(volatile uint8_t * _port, uint8_t _pin);
 
     /**
-     * @brief Function for initializing LATCH output.
+     * @brief Function for initializing SELECT output.
      *
      * a normal member taking two arguments.
      * @author Berran Remzi

@@ -6,7 +6,7 @@
  *
  * @author Berran Remzi
  *
- * @date 07.04.2019
+ * @date 20.08.2019
  */
 #include "SoftSPI.h"
 
@@ -22,12 +22,16 @@ void SoftSPI_InitDelay(uint8_t _dummy_cycles) {
 
 void SoftSPI_Init(
     volatile uint8_t * _port,
-    uint8_t _data_pin,
+    uint8_t _mosi_pin,
+    uint8_t _miso_pin,
     uint8_t _clock_pin,
-    uint8_t _latch_pin) {
-    SoftSPI_InitDataPin(_port, _data_pin);
+    uint8_t _select_pin) {
+    SoftSPI_InitDataOutPin(_port, _mosi_pin);
     SoftSPI_InitClockPin(_port, _clock_pin);
-    SoftSPI_InitLatchPin(_port, _latch_pin);
+    SoftSPI_InitSelectPin(_port, _select_pin);
+
+    p_mosi_port = _port;
+    miso_pin = _miso_pin;
 }
 
 static inline uint8_t convertOutNumberToBit(uint8_t _pin) {
@@ -41,11 +45,11 @@ static inline void SoftSPI_Delay(void) {
         continue;
 }
 
-void SoftSPI_InitDataPin(volatile uint8_t * _port, uint8_t _pin) {
+void SoftSPI_InitDataOutPin(volatile uint8_t * _port, uint8_t _pin) {
     if (_port) {
         setBit(&init_level, 0);
     }
-    p_data_port = _port;
+    p_mosi_port = _port;
     data_pin = _pin;
 }
 
@@ -57,15 +61,15 @@ void SoftSPI_InitClockPin(volatile uint8_t * _port, uint8_t _pin) {
     clock_pin = _pin;
 }
 
-void SoftSPI_InitLatchPin(volatile uint8_t * _port, uint8_t _pin) {
+void SoftSPI_InitSelectPin(volatile uint8_t * _port, uint8_t _pin) {
     if (_port) {
         setBit(&init_level, 2);
     }
-    p_latch_port = _port;
-    latch_pin = _pin;
+    p_select_port = _port;
+    select_pin = _pin;
 }
 
-void SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
+uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
     if (!SoftSPI_IsInitialized()) {
         return;
     }
@@ -74,22 +78,23 @@ void SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
         switch (_bit_order) {
         case SOFT_SPI_MSB_FIRST:
             if ((_value >> i) & 0x01) {
-                setBit(p_data_port, data_pin);
+                setBit(p_mosi_port, data_pin);
             } else {
-                clearBit(p_data_port, data_pin);
+                clearBit(p_mosi_port, data_pin);
             }
             break;
         case SOFT_SPI_LSB_FIRST:
             if ((_value << i) & 0x80) {
-                setBit(p_data_port, data_pin);
+                setBit(p_mosi_port, data_pin);
             } else {
-                clearBit(p_data_port, data_pin);
+                clearBit(p_mosi_port, data_pin);
             }
             break;
         default: break;
         }
         SoftSPI_ToggleClock();
     }
+    return 0xFF;
 }
 
 void SoftSPI_Clear(void) {
@@ -114,7 +119,7 @@ void SoftSPI_TriggerOutput(void) {
     if (!SoftSPI_IsInitialized()) {
         return;
     }
-    setBit(p_latch_port, latch_pin);
+    setBit(p_select_port, select_pin);
     SoftSPI_Delay();
-    clearBit(p_latch_port, latch_pin);
+    clearBit(p_select_port, select_pin);
 }
