@@ -15,9 +15,7 @@ inline uint8_t SoftSPI_IsInitialized(void) {
 }
 
 void SoftSPI_InitDelay(uint8_t _dummy_cycles) {
-    if (_dummy_cycles > 0) {
-        dummy_cycles = _dummy_cycles;
-    }
+    dummy_cycles = _dummy_cycles;
 }
 
 void SoftSPI_Init(
@@ -41,8 +39,9 @@ static inline uint8_t convertOutNumberToBit(uint8_t _pin) {
 
 static inline void SoftSPI_Delay(void) {
     uint8_t _counter = dummy_cycles;
-    while ( --_counter != 0)
-        continue;
+    while ( _counter > 0 ) {
+        _counter--;
+    }
 }
 
 void SoftSPI_InitDataOutPin(volatile uint8_t * _port, uint8_t _pin) {

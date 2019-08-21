@@ -21,8 +21,8 @@
 /**
  * Section: Preprocessor Constants
  */
-#define MIN_DELAY_TICKS 0x01
-#define ALL_INPUTS_ARE_INITIALIZED 0x07
+#define MIN_DELAY_TICKS 1U
+#define ALL_INPUTS_ARE_INITIALIZED 0x07U
 
 /** 
  * An enum.
