@@ -4,7 +4,7 @@ It accepts port address as pointer and pin number for every output.
 
 ---
 
-## Example code for PIC12F1840 with XC8 compiler
+## Example code for PIC12F1840 and 74HC595 with XC8 compiler
 
 ```c
 
@@ -12,6 +12,11 @@ It accepts port address as pointer and pin number for every output.
 #include <stdint.h>
 #include "configuration.h"
 #include "SoftSPI.h"
+
+#define MOSI_PIN 3
+#define MISO_PIN 0
+#define CLOCK_PIN 1
+#define SELECT_PIN 2
 
 void init(void){
    LATA = 0x00;
@@ -22,7 +27,7 @@ void main(void)
 {
     uint8_t counter = 0;
     init();
-    SoftSPI_Init(&PORTA, 0, 1, 2);
+    SoftSPI_Init(&PORTA, MOSI_PIN, MISO_PIN, CLOCK_PIN, SELECT_PIN);
     SoftSPI_InitDelay(10); // by default this is 1 cycle
     for(;;){
         SoftSPI_Write(counter++, SOFT_SPI_LSB_FIRST);
@@ -33,7 +38,40 @@ void main(void)
 
 ```
 
-## Initializing ports one by one
+## Example code for PIC12F1840 and MCP3201 with XC8 compiler
+
+```c
+
+#include <xc.h>
+#include <stdint.h>
+#include "configuration.h"
+#include "SoftSPI.h"
+
+#define MOSI_PIN 3
+#define MISO_PIN 0
+#define CLOCK_PIN 1
+#define SELECT_PIN 2
+
+void main(void)
+{
+    init();
+    SoftSPI_Init(&PORTA, MOSI_PIN, MISO_PIN, CLOCK_PIN, SELECT_PIN);
+    for(;;) {
+        clearBit(&PORTA, SELECT_PIN);
+        adc.dataByte[1] = SoftSPI_Write(0, SOFT_SPI_LSB_FIRST);
+        adc.dataByte[0] = SoftSPI_Write(0, SOFT_SPI_LSB_FIRST);
+        setBit(&PORTA, SELECT_PIN);
+
+        adc.result >>= 1; // adjust composite integer for 12 valid bits
+        adc.result &= 0x0FFF; // mask out upper nibble of integer
+        
+        printf("%u\n\r", adc.result);
+    }
+}
+
+```
+
+## Initializing ports
 Use these three functions:
 
 ```c
@@ -42,17 +80,18 @@ Use these three functions:
    SoftSPI_InitLatchPin(&PORTA, 2);
 ```
 
-istead of
+or:
 
 ```c
-SoftSPI_Init(&PORTA, 0, 1, 2);
+//SoftSPI_Init(&PORTA, MOSI_PIN, MISO_PIN, CLOCK_PIN, SELECT_PIN);
+SoftSPI_Init(&PORTA, 0, 1, 2, 3);
 ```
 
 ## Changing number of dummy processor cycles
 If the value isn't initialized, default is 1 processor cycle
 
 ```c
-SoftSPI_InitDelay(10); // min = 1, max = 255;
+SoftSPI_InitDelay(10); // min = 0, max = 255;
 ```
 
 ## Authors
