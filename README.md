@@ -52,6 +52,11 @@ void main(void)
 #define CLOCK_PIN 1
 #define SELECT_PIN 2
 
+union {
+    uint8_t dataByte[2];
+    uint16_t result;
+} adc;
+
 void main(void)
 {
     init();
