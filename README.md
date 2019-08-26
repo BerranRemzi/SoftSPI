@@ -92,6 +92,13 @@ or:
 SoftSPI_Init(&PORTA, 0, 1, 2, 3);
 ```
 
+or initialize only MISO or MOSI with pin number -1:
+
+```c
+//SoftSPI_Init(&PORTA, MOSI_PIN, MISO_PIN, CLOCK_PIN, SELECT_PIN);
+SoftSPI_Init(&PORTA, -1, 1, 2, 3);
+```
+
 ## Changing number of dummy processor cycles
 If the value isn't initialized, default is 1 processor cycle
 
