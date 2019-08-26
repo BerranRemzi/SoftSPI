@@ -25,6 +25,7 @@ void SoftSPI_Init(
     int8_t _clock_pin,
     int8_t _select_pin) {
     SoftSPI_InitDataOutPin(_port, _mosi_pin);
+    SoftSPI_InitDataInPin(_port, _miso_pin);
     SoftSPI_InitClockPin(_port, _clock_pin);
     SoftSPI_InitSelectPin(_port, _select_pin);
 
@@ -52,18 +53,20 @@ void SoftSPI_InitDataOutPin(volatile uint8_t * _port, uint8_t _pin) {
     mosi_pin = _pin;
 }
 
-void SoftSPI_InitClockPin(volatile uint8_t * _port, uint8_t _pin) {
+void SoftSPI_InitDataInPin(volatile uint8_t * _port, uint8_t _pin) {
     if (_port) {
         setBit(&init_level, 1);
     }
+    p_miso_port = _port;
+    miso_pin = _pin;
+}
+
+void SoftSPI_InitClockPin(volatile uint8_t * _port, uint8_t _pin) {
     p_clock_port = _port;
     clock_pin = _pin;
 }
 
 void SoftSPI_InitSelectPin(volatile uint8_t * _port, uint8_t _pin) {
-    if (_port) {
-        setBit(&init_level, 2);
-    }
     p_select_port = _port;
     select_pin = _pin;
 }
