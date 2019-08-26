@@ -94,10 +94,10 @@ extern "C" {
      */
     void SoftSPI_Init(
             volatile uint8_t * _port,
-            uint8_t _mosi_pin,
-            uint8_t _miso_pin,
-            uint8_t _clock_pin,
-            uint8_t _select_pin);
+            int8_t _mosi_pin,
+            int8_t _miso_pin,
+            int8_t _clock_pin,
+            int8_t _select_pin);
 
     /**
      * @brief Function for setting single a bit from specified port.

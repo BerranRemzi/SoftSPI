@@ -20,10 +20,10 @@ void SoftSPI_InitDelay(uint8_t _dummy_cycles) {
 
 void SoftSPI_Init(
     volatile uint8_t * _port,
-    uint8_t _mosi_pin,
-    uint8_t _miso_pin,
-    uint8_t _clock_pin,
-    uint8_t _select_pin) {
+    int8_t _mosi_pin,
+    int8_t _miso_pin,
+    int8_t _clock_pin,
+    int8_t _select_pin) {
     SoftSPI_InitDataOutPin(_port, _mosi_pin);
     SoftSPI_InitClockPin(_port, _clock_pin);
     SoftSPI_InitSelectPin(_port, _select_pin);
@@ -71,31 +71,35 @@ void SoftSPI_InitSelectPin(volatile uint8_t * _port, uint8_t _pin) {
 uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
     uint8_t inputData = 0;
 
-    if (!SoftSPI_IsInitialized()) {
+    /*if (!SoftSPI_IsInitialized()) {
         return 0x00;
-    }
+    }*/
 
     for (uint8_t i = 0; i < 8; i++) {
-        switch (_bit_order) {
-        case SOFT_SPI_MSB_FIRST:
-            if ((_value >> i) & 0x01) {
-                setBit(p_mosi_port, mosi_pin);
-            } else {
-                clearBit(p_mosi_port, mosi_pin);
+        if ( mosi_pin >= 0 ) {
+            switch (_bit_order) {
+            case SOFT_SPI_MSB_FIRST:
+                if ((_value >> i) & 0x01) {
+                    setBit(p_mosi_port, mosi_pin);
+                } else {
+                    clearBit(p_mosi_port, mosi_pin);
+                }
+                break;
+            case SOFT_SPI_LSB_FIRST:
+                if ((_value << i) & 0x80) {
+                    setBit(p_mosi_port, mosi_pin);
+                } else {
+                    clearBit(p_mosi_port, mosi_pin);
+                }
+                break;
+            default: break;
             }
-            break;
-        case SOFT_SPI_LSB_FIRST:
-            if ((_value << i) & 0x80) {
-                setBit(p_mosi_port, mosi_pin);
-            } else {
-                clearBit(p_mosi_port, mosi_pin);
-            }
-            break;
-        default: break;
         }
-        inputData |= readBit(p_mosi_port, miso_pin);
-        if ( i < 7 ) {
-            inputData = inputData << 1;
+        if ( miso_pin >= 0 ) {
+            inputData |= readBit(p_mosi_port, miso_pin);
+            if ( i < 7 ) {
+                inputData = inputData << 1;
+            }
         }
         SoftSPI_ToggleClock();
     }
