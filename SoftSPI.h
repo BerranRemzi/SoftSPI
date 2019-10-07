@@ -21,8 +21,9 @@
 /**
  * Section: Preprocessor Constants
  */
-#define MIN_DELAY_TICKS 1U
-#define ALL_INPUTS_ARE_INITIALIZED 0x07U
+#define MIN_DELAY_TICKS             1U
+#define ALL_INPUTS_ARE_INITIALIZED  0x07U
+#define NO_PIN                      -1
 
 /** 
  * An enum.
@@ -40,13 +41,13 @@ static uint8_t init_level = 0;
 static uint8_t dummy_cycles = MIN_DELAY_TICKS;
 
 static volatile uint8_t * p_clock_port = 0;
-static uint8_t clock_pin;
+static int8_t clock_pin;
 
 static volatile uint8_t * p_select_port = 0;
-static uint8_t select_pin;
+static int8_t select_pin;
 
 static volatile uint8_t * p_mosi_port = 0;
-static uint8_t mosi_pin;
+static int8_t mosi_pin;
 
 static volatile uint8_t * p_miso_port = 0;
 static int8_t miso_pin;
@@ -207,7 +208,7 @@ extern "C" {
      * @return @c NULL is always returned.
      * @date 7.04.2019
      */
-    void SoftSPI_InitDataOutPin(volatile uint8_t * _port, uint8_t _pin);
+    void SoftSPI_InitDataOutPin(volatile uint8_t * _port, int8_t _pin);
 
     /**
      * @brief Function for initializing MOSI output.
@@ -219,7 +220,19 @@ extern "C" {
      * @return @c NULL is always returned.
      * @date 7.04.2019
      */
-    void SoftSPI_InitSelectPin(volatile uint8_t * _port, uint8_t _pin);
+    void SoftSPI_InitDataInPin(volatile uint8_t * _port, int8_t _pin);
+
+    /**
+     * @brief Function for initializing MISO input.
+     *
+     * a normal member taking two arguments.
+     * @author Berran Remzi
+     * @param *_port Port address.
+     * @param _pin Pin number.
+     * @return @c NULL is always returned.
+     * @date 7.10.2019
+     */
+    void SoftSPI_InitSelectPin(volatile uint8_t * _port, int8_t _pin);
 
     /**
      * @brief Function for initializing SELECT output.
@@ -231,7 +244,7 @@ extern "C" {
      * @return @c NULL is always returned.
      * @date 7.04.2019
      */
-    void SoftSPI_InitClockPin(volatile uint8_t * _port, uint8_t _pin);
+    void SoftSPI_InitClockPin(volatile uint8_t * _port, int8_t _pin);
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
