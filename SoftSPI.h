@@ -34,39 +34,9 @@ typedef enum BitNumberingEnum {
     SOFT_SPI_MSB_FIRST /**< Most significant bit. */
 } BitNumberingEnum;
 
-/**
- * Section: Global Variables Definitions
- */
-static uint8_t init_level = 0;
-static uint8_t dummy_cycles = MIN_DELAY_TICKS;
-
-static volatile uint8_t * p_clock_port = 0;
-static int8_t clock_pin;
-
-static volatile uint8_t * p_select_port = 0;
-static int8_t select_pin;
-
-static volatile uint8_t * p_mosi_port = 0;
-static int8_t mosi_pin;
-
-static volatile uint8_t * p_miso_port = 0;
-static int8_t miso_pin;
-
 #ifdef __cplusplus  // Provide C++ Compatibility
-
 extern "C" {
-
 #endif
-
-    /**
-     * @brief Function for checking initialization status of API.
-     *
-     * a normal member that returning an uint8_t value.
-     * @author Berran Remzi
-     * @return Function returns API initialization status
-     * @date 7.04.2019
-     */
-    inline uint8_t SoftSPI_IsInitialized();
 
     /**
      * @brief Function for initialization dummy cycles for delay.
@@ -137,27 +107,6 @@ extern "C" {
     bool readBit(volatile uint8_t * _port, uint8_t _pin);
 
     /**
-     * @brief Function for delay.
-     * 
-     * this function looping through dummy processor cycles and generating delay
-     *
-     * @author Berran Remzi
-     * @return @c NULL is always returned.
-     * @date 7.04.2019
-     */
-    static inline void SoftSPI_Delay(void);
-
-    /**
-     * @brief Function for clearing the output.
-     *
-     * This function send 0x00 to output.
-     * @author Berran Remzi
-     * @return @c NULL is always returned.
-     * @date 7.04.2019
-     */
-    void SoftSPI_Clear(void);
-
-    /**
      * @brief Function for writing one byte to the output.
      *
      * a normal member taking two arguments.
@@ -170,33 +119,13 @@ extern "C" {
     uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order);
 
     /**
-     * @brief Function for toggling the CLOCK pin
-     *
-     * @author Berran Remzi
-     * @return @c readed byte by MISO input.
-     * @date 20.08.2019
-     */
-    void SoftSPI_ToggleClock(void);
-
-    /**
-     * @brief Function for toggling the SELECT pin
+     * @brief Function for setting the SELECT pin
      *
      * @author Berran Remzi
      * @return @c NULL is always returned.
-     * @date 7.04.2019
+     * @date 12.01.2023
      */
-    void SoftSPI_TriggerOutput(void);
-
-    /**
-     * @brief Function for converting pin number to port bit.
-     *
-     * a normal member taking one arguments.
-     * @author Berran Remzi
-     * @param _pin Pin number.
-     * @return @c NULL is always returned.
-     * @date 7.04.2019
-     */
-    static inline uint8_t convertOutNumberToBit(uint8_t _pin);
+    void SoftSPI_WriteChipSelect(bool _state);
 
     /**
      * @brief Function for initializing MOSI output.
@@ -247,9 +176,7 @@ extern "C" {
     void SoftSPI_InitClockPin(volatile uint8_t * _port, int8_t _pin);
 
 #ifdef __cplusplus  // Provide C++ Compatibility
-
 }
-
 #endif
 
 #endif  // SOFTSPI_H_
