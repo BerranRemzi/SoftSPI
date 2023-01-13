@@ -90,22 +90,16 @@ uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
         bit_mask = 0x01u;
     }
     for (uint8_t i = 0u; i < 8u; i++) {
-        
         if (NO_PIN < mosi_pin) {
-            if (_value & bit_mask) {
-                setBit(p_mosi_port, mosi_pin);
-            } else {
-                clearBit(p_mosi_port, mosi_pin);
-            }
-            bit_mask >>= (_bit_order == SOFT_SPI_MSB_FIRST ? 1 : -1);
+            (_value & bit_mask) ? setBit(p_mosi_port, mosi_pin) : clearBit(p_mosi_port, mosi_pin);
+            (_bit_order == SOFT_SPI_MSB_FIRST) ? (bit_mask >>= 1u) : (bit_mask <<= 1u);
         }
         setBit(p_clock_port, clock_pin);
         SoftSPI_Delay();
+
         if (NO_PIN < miso_pin) {
-            inputData |= readBit(p_miso_port, miso_pin);
-            if (i < 7u) {
-                inputData = inputData << 1u;
-            }
+            uint8_t shift_count = (_bit_order == SOFT_SPI_MSB_FIRST) ? 7u - i : i;
+            inputData |= (readBit(p_miso_port, miso_pin) << shift_count);
         }
         clearBit(p_clock_port, clock_pin);
         SoftSPI_Delay();
