@@ -27,17 +27,16 @@ static int8_t mosi_pin;
 static volatile uint8_t * p_miso_port = 0;
 static int8_t miso_pin;
 
-    /**
-     * @brief Function for delay.
-     * 
-     * this function looping through dummy processor cycles and generating delay
-     *
-     * @author Berran Remzi
-     * @return @c NULL is always returned.
-     * @date 7.04.2019
-     */
-    static inline void SoftSPI_Delay(void);
-
+/**
+ * @brief Function for delay.
+ *
+ * this function looping through dummy processor cycles and generating delay
+ *
+ * @author Berran Remzi
+ * @return @c NULL is always returned.
+ * @date 7.04.2019
+ */
+static inline void SoftSPI_Delay(void);
 
 void SoftSPI_InitDelay(uint8_t _dummy_cycles) {
     dummy_cycles = _dummy_cycles;
@@ -81,14 +80,9 @@ void SoftSPI_InitSelectPin(volatile uint8_t * _port, int8_t _pin) {
 }
 
 uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
-    uint8_t inputData = 0u;
-    uint8_t bit_mask;
+    uint8_t input_data = 0u;
+    uint8_t bit_mask = (_bit_order == SOFT_SPI_MSB_FIRST) ? 0x80u : 0x01u;
     
-    if(_bit_order == SOFT_SPI_MSB_FIRST) {
-        bit_mask = 0x80u;
-    } else {
-        bit_mask = 0x01u;
-    }
     for (uint8_t i = 0u; i < 8u; i++) {
         if (NO_PIN < mosi_pin) {
             (_value & bit_mask) ? setBit(p_mosi_port, mosi_pin) : clearBit(p_mosi_port, mosi_pin);
@@ -99,12 +93,12 @@ uint8_t SoftSPI_Write(uint8_t _value, uint8_t _bit_order) {
 
         if (NO_PIN < miso_pin) {
             uint8_t shift_count = (_bit_order == SOFT_SPI_MSB_FIRST) ? 7u - i : i;
-            inputData |= (readBit(p_miso_port, miso_pin) << shift_count);
+            input_data |= (readBit(p_miso_port, miso_pin) << shift_count);
         }
         clearBit(p_clock_port, clock_pin);
         SoftSPI_Delay();
     }
-    return inputData;
+    return input_data;
 }
 
 void setBit(volatile uint8_t * _port, uint8_t _pin) {
