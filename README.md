@@ -1,6 +1,5 @@
 # SoftSPI
-This is a simple library to simplify bit-banging SPI on any MCU.
-It accepts port address as pointer and pin number for every output.
+This code is a software-based implementation of the SPI (Serial Peripheral Interface) communication protocol. It contains definitions for basic utilities functions and SPI configuration, and uses a set of IO port pins for the MOSI (Master Out Slave In), MISO (Master In Slave Out), SCK (Serial Clock), and SS (Slave Select) signals. The functions provided include initializing the pins, writing data, and reading data. The implementation has the options to set the data bit order (MSB first or LSB first) and delay cycle to control the speed of communication. The code also provides basic functions for setting, clearing, and reading bits on a specified port.
 
 ---
 
